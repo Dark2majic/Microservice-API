@@ -76,3 +76,11 @@ content-type: application/json
         // ... Other character data fields
     }
 }
+
+### Get all D&D Characters for a user
+GET {{host}}/api/dnd/characters HTTP/1.1
+content-type: application/json
+
+{
+    "userId": "{{userId}}"
+}

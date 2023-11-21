@@ -7,28 +7,38 @@ const ComputerSpec = require('../models/computerSpecModel');
 // D&D Character Save Endpoint
 router.post('/dnd/saveCharacter', async (req, res) => {
     try {
-        const { userId, characterData, characterId } = req.body;
+        const { userId, characterData } = req.body;
 
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).send('User not found');
+        let user;
+        if (userId) {
+            user = await User.findById(userId);
         }
 
-        let character;
-        if (characterId) {
-            // Update the existing character if an ID is provided
-            character = await DndCharacter.findByIdAndUpdate(characterId, characterData, { new: true });
-        } else {
-            // Create a new character if no ID is provided
-            character = new DndCharacter(characterData);
-            await character.save();
-
-            // Add the new character's ID to the user's dndCharacterIds
-            user.dndCharacterIds.push(character._id);
+        if (!user) {
+            // Create a new user if not found or no userId provided
+            user = new User({ /* set initial user data if needed */ });
             await user.save();
         }
 
+        const character = new DndCharacter(characterData);
+        await character.save();
+
+        // Add the new character's ID to the user's dndCharacterIds
+        user.dndCharacterIds.push(character._id);
+        await user.save();
+
         res.status(200).json(character);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+// Simple GET Endpoint to fetch all D&D Characters (For demonstration)
+router.get('/dnd/characters', async (req, res) => {
+    try {
+        const characters = await DndCharacter.find();  // Assuming DndCharacter is your model
+        res.json(characters);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
