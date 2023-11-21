@@ -1,0 +1,78 @@
+@host = http://localhost:3000
+@userId = 655af165f012fee05f0ff21d
+
+### Create new D&D Character
+POST {{host}}/api/dnd/saveCharacter HTTP/1.1
+content-type: application/json
+
+{
+    "userId": "{{userId}}",
+    "characterData": {
+        "race": "Elf",
+        "class": "Ranger",
+        "name": "Aragorn",
+        "age": "210",
+        "gender": "Male",
+        "height": "6'2",
+        "weight": "175 lbs",
+        "hair_color": "Black",
+        "eye_color": "Grey",
+        "skin_color": "Fair",
+        "appearance": "Tall and rugged",
+        "backstory": "Lorem ipsum...",
+        "additional_features": "Lorem ipsum...",
+        "ability_scores": {
+            "strength": 14,
+            "dexterity": 18,
+            "constitution": 13,
+            "intelligence": 12,
+            "wisdom": 15,
+            "charisma": 10
+        },
+        "ability_modifiers": {
+            "strength": 2,
+            "dexterity": 4,
+            "constitution": 1,
+            "intelligence": 1,
+            "wisdom": 2,
+            "charisma": 0
+        },
+        "skills": {
+            "acrobatics": 5,
+            "animal_handling": 3,
+            "arcana": 0,
+            "athletics": 4,
+            "deception": 1,
+            "history": 2,
+            "insight": 3,
+            "intimidation": 2,
+            "investigation": 3,
+            "medicine": 2,
+            "nature": 4,
+            "perception": 5,
+            "performance": 1,
+            "persuasion": 3,
+            "religion": 0,
+            "sleight_of_hand": 4,
+            "stealth": 5,
+            "survival": 5
+        }
+    }
+}
+
+### Update existing D&D Character
+# To use this, replace `Your-Character-Id-Here` with an actual character ID.
+POST {{host}}/api/dnd/saveCharacter HTTP/1.1
+content-type: application/json
+
+{
+    "userId": "{{userId}}",
+    "characterId": "Your-Character-Id-Here",  # Replace with an actual character ID
+    "characterData": {
+        "race": "Elf",
+        "class": "Ranger",
+        "name": "Aragorn II",
+        "age": "211",
+        // ... Other character data fields
+    }
+}
